@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="sq" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=5" />
+  <title>Kurani — Quran Premium · Arabisht · Shqip · Anglisht</title>
+  <meta name="description" content="Aplikacion premium i Kuranit: teksti i plotë arab, përkthimi shqip dhe anglisht, recitime profesionale, lexim offline, favoritet dhe memorizim. Premium Quran app with Albanian & English translations." />
+  <meta name="theme-color" content="#107A5B" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0a4b38" media="(prefers-color-scheme: dark)" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Kurani" />
+
+  <!-- SEO / Social -->
+  <link rel="canonical" href="https://kurani.app/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Kurani — Quran Premium" />
+  <meta property="og:description" content="Premium Quran app: Arabic text, Albanian & English translations, professional recitations, offline reading." />
+  <meta property="og:image" content="icons/icon-512.png" />
+  <meta property="og:locale" content="sq_AL" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+
+  <!-- Fonts (cached offline by the service worker) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Scheherazade+New:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: ['selector', '[data-theme="dark"]'],
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            quran: ['"Amiri Quran"', '"Scheherazade New"', 'serif'],
+          },
+          colors: {
+            brand: { 50:'#e8f5f0',100:'#c5e6da',400:'#2fa07d',500:'#107A5B',600:'#0e6a4f',700:'#0a4b38',900:'#06291f' },
+            gold: { 300:'#f0d696', 400:'#d4af59', 500:'#bd982f' },
+          },
+          boxShadow: { soft:'0 8px 30px rgba(0,0,0,0.08)', glow:'0 10px 40px rgba(16,122,91,0.25)' },
+          borderRadius: { '2xl':'1.25rem', '3xl':'1.75rem' },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root{
+      --bg:#f4f6f5; --surface:#ffffff; --surface-2:#f7faf9; --text:#0f1c18; --muted:#637a72;
+      --border:#e3eae7; --accent:#107A5B; --accent-soft:#e8f5f0; --gold:#bd982f; --shadow:0 8px 30px rgba(16,40,32,.08);
+    }
+    [data-theme="dark"]{
+      --bg:#06140f; --surface:#0e221a; --surface-2:#0a1c15; --text:#eaf3ef; --muted:#8aa79c;
+      --border:#163127; --accent:#2fa07d; --accent-soft:#0e2a20; --gold:#d4af59; --shadow:0 10px 40px rgba(0,0,0,.45);
+    }
+    [data-theme="sepia"]{
+      --bg:#f3e9d6; --surface:#fbf3e3; --surface-2:#f6ecd8; --text:#3a2f20; --muted:#8a785c;
+      --border:#e6d6b8; --accent:#9a6b2f; --accent-soft:#f0e2c6; --gold:#9a6b2f; --shadow:0 8px 30px rgba(120,90,40,.12);
+    }
+    [data-theme="night"]{
+      --bg:#000000; --surface:#0a0a0a; --surface-2:#0f0f0f; --text:#d8e6df; --muted:#6f877c;
+      --border:#161616; --accent:#1f8c69; --accent-soft:#0c1612; --gold:#caa44f; --shadow:none;
+    }
+    html,body{background:var(--bg);color:var(--text);}
+    body{font-family:Inter,system-ui,sans-serif;-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none;}
+    .surface{background:var(--surface);} .surface-2{background:var(--surface-2);}
+    .txt-muted{color:var(--muted);} .brd{border-color:var(--border);}
+    .accent{color:var(--accent);} .bg-accent{background:var(--accent);} .accent-soft{background:var(--accent-soft);}
+    .shadow-card{box-shadow:var(--shadow);}
+    .arabic{font-family:'Amiri Quran','Scheherazade New',serif;direction:rtl;line-height:2.15;}
+    .glass{backdrop-filter:saturate(180%) blur(14px);-webkit-backdrop-filter:saturate(180%) blur(14px);}
+    ::-webkit-scrollbar{width:9px;height:9px}
+    ::-webkit-scrollbar-thumb{background:var(--border);border-radius:9px}
+    .fade-in{animation:fade .4s ease both}
+    @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    .pop{animation:pop .25s cubic-bezier(.2,.9,.3,1.3) both}
+    @keyframes pop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+    .ayah-active{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent);border-radius:.9rem}
+    .skeleton{background:linear-gradient(90deg,var(--surface-2) 25%,var(--border) 37%,var(--surface-2) 63%);background-size:400% 100%;animation:sk 1.2s ease infinite}
+    @keyframes sk{0%{background-position:100% 0}100%{background-position:-100% 0}}
+    .safe-b{padding-bottom:env(safe-area-inset-bottom)}
+    .safe-t{padding-top:env(safe-area-inset-top)}
+    .tap{transition:transform .12s ease, background .2s ease} .tap:active{transform:scale(.96)}
+    [hidden]{display:none!important}
+    .seg{transition:all .2s ease}
+
+    /* ===== Premium polish layer ===== */
+    /* Ambient animated background */
+    #ambient{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+    #ambient .blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;will-change:transform}
+    #ambient .b1{width:46vw;height:46vw;background:radial-gradient(circle,rgba(16,122,91,.55),transparent 70%);top:-12vw;left:-10vw;animation:float1 22s ease-in-out infinite}
+    #ambient .b2{width:40vw;height:40vw;background:radial-gradient(circle,rgba(212,175,89,.40),transparent 70%);bottom:-14vw;right:-12vw;animation:float2 26s ease-in-out infinite}
+    #ambient .b3{width:34vw;height:34vw;background:radial-gradient(circle,rgba(47,160,125,.35),transparent 70%);top:40%;right:30%;animation:float3 30s ease-in-out infinite}
+    [data-theme="light"] #ambient .blob{opacity:.22}
+    [data-theme="sepia"] #ambient .blob{opacity:.20}
+    [data-theme="night"] #ambient{opacity:.5}
+    @keyframes float1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(6vw,5vw) scale(1.12)}}
+    @keyframes float2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-7vw,-4vw) scale(1.15)}}
+    @keyframes float3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-4vw,6vw) scale(.9)}}
+
+    /* Ripple micro-interaction */
+    .tap{position:relative;overflow:hidden}
+    .ripple{position:absolute;border-radius:50%;transform:scale(0);background:currentColor;opacity:.18;pointer-events:none;animation:ripple .55s ease-out forwards}
+    @keyframes ripple{to{transform:scale(2.4);opacity:0}}
+
+    /* Premium button depth + glow on primary */
+    .bg-accent{position:relative;background-image:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 70%, #000 22%));}
+    .btn-glow{box-shadow:0 6px 18px -4px color-mix(in srgb,var(--accent) 60%, transparent),0 2px 6px rgba(0,0,0,.12)}
+    .btn-glow:active{transform:translateY(1px) scale(.98)}
+
+    /* Card hover lift (pointer devices) */
+    @media(hover:hover){
+      .shadow-card{transition:transform .28s cubic-bezier(.2,.8,.2,1),box-shadow .28s ease}
+      .shadow-card:hover{transform:translateY(-3px);box-shadow:0 18px 40px -12px rgba(16,40,32,.28)}
+      .navbtn:hover{color:var(--accent)}
+    }
+
+    /* Scroll reveal (staggered) */
+    .reveal{opacity:0;transform:translateY(16px);transition:opacity .55s cubic-bezier(.2,.8,.2,1),transform .55s cubic-bezier(.2,.8,.2,1)}
+    .reveal.in{opacity:1;transform:none}
+
+    /* Page transition */
+    #view.swap{animation:swapIn .45s cubic-bezier(.2,.8,.2,1) both}
+    @keyframes swapIn{from{opacity:0;transform:translateY(10px) scale(.992)}to{opacity:1;transform:none}}
+
+    /* Sheet slide-up */
+    #sheetBody{animation:sheetUp .42s cubic-bezier(.2,.9,.25,1.05) both}
+    @keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+    #sheetBg{animation:fadeBg .3s ease both}
+    @keyframes fadeBg{from{opacity:0}to{opacity:1}}
+
+    /* Toast spring */
+    #toast{animation:toastIn .4s cubic-bezier(.2,.9,.25,1.2) both}
+    @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(12px) scale(.9)}to{opacity:1;transform:translateX(-50%) scale(1)}}
+
+    /* Favorite / memorize pop */
+    .pulse-fav{animation:favPop .45s cubic-bezier(.2,.9,.3,1.4)}
+    @keyframes favPop{0%{transform:scale(1)}40%{transform:scale(1.45)}100%{transform:scale(1)}}
+
+    /* Active nav indicator */
+    .navbtn{position:relative;transition:color .25s ease}
+    .navbtn.accent::before{content:"";position:absolute;top:6px;width:30px;height:3px;border-radius:3px;background:var(--accent);animation:navDot .3s ease both}
+    @keyframes navDot{from{opacity:0;transform:scaleX(.3)}to{opacity:1;transform:scaleX(1)}}
+
+    /* Glass gradient border on hero/cards */
+    .ring-gold{position:relative}
+    .ring-gold::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(135deg,rgba(212,175,89,.6),transparent 60%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+
+    /* ===== Premium icon chips & quick tiles ===== */
+    .icon-chip{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;color:#fff;
+      background:linear-gradient(135deg,var(--c1),var(--c2));
+      box-shadow:0 6px 16px -6px var(--c2),inset 0 1px 0 rgba(255,255,255,.35);position:relative;overflow:hidden}
+    .icon-chip::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(180deg,rgba(255,255,255,.28),transparent 55%);pointer-events:none}
+    .tile{transition:transform .2s cubic-bezier(.2,.8,.2,1)}
+    .tile:active{transform:scale(.94)}
+    @media(hover:hover){ .tile:hover .icon-chip{transform:translateY(-2px) scale(1.06);transition:transform .25s cubic-bezier(.2,.8,.2,1)} }
+
+    /* Hero card sheen */
+    .hero-card{box-shadow:0 18px 50px -16px rgba(10,75,56,.55)}
+    .hero-card::before{content:"";position:absolute;top:-40%;left:-20%;width:60%;height:180%;
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,.10),transparent);transform:rotate(18deg);pointer-events:none}
+
+    /* Surah medallion subtle float on hover */
+    @media(hover:hover){ .shadow-card:hover .medallion svg{transform:rotate(22deg);transition:transform .5s cubic-bezier(.2,.8,.2,1)} }
+    .medallion svg{transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+
+    /* ===== Redesigned bottom nav (floating active chip) ===== */
+    .navbtn{position:relative;transition:color .25s ease}
+    .navbtn svg{transition:transform .25s cubic-bezier(.2,.8,.2,1),background .25s ease,padding .2s ease;border-radius:13px}
+    .navbtn.accent svg{background:var(--accent-soft);padding:5px;box-sizing:content-box;transform:translateY(-1px)}
+    .navbtn.accent::before{content:"";position:absolute;top:7px;width:34px;height:34px;border-radius:13px;
+      background:radial-gradient(circle,color-mix(in srgb,var(--accent) 22%,transparent),transparent 70%);animation:navDot .3s ease both}
+    @keyframes navDot{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:scale(1)}}
+    .navbtn.accent span{font-weight:700}
+
+    @media (prefers-reduced-motion: reduce){
+      *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+      #ambient .blob{animation:none}
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+
+  <!-- ===== Ambient animated background ===== -->
+  <div id="ambient" aria-hidden="true">
+    <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
+  </div>
+
+  <!-- ===== Splash (matches the premium interior) ===== -->
+  <div id="splash" class="fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-hidden"
+       style="background:radial-gradient(120% 90% at 50% 0%, #13a06f 0%, #0a4b38 60%, #06291f 100%)">
+    <style>
+      #splash .sp-star{position:absolute;inset:0;opacity:.12}
+      #splash .sp-glow{position:absolute;width:70vw;height:70vw;max-width:520px;max-height:520px;top:-22%;border-radius:50%;
+        background:radial-gradient(circle,rgba(212,175,89,.4),transparent 65%);filter:blur(8px)}
+      #splash .sp-medal{animation:spMedal .9s cubic-bezier(.2,.9,.3,1.25) both}
+      #splash .sp-ring{position:absolute;inset:-10px;border-radius:30px;border:1.5px solid rgba(240,214,150,.55);
+        animation:spRing 1s ease both, spPulse 2.6s ease-in-out 1s infinite}
+      #splash .sp-t1{animation:spRise .7s ease .35s both}
+      #splash .sp-t2{animation:spRise .7s ease .5s both}
+      #splash .sp-t3{animation:spRise .7s ease .65s both}
+      #splash .sp-bar{animation:spRise .6s ease .8s both}
+      #splash .sp-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#f0d696,#d4af59);
+        width:0;animation:spFill 1.5s cubic-bezier(.4,0,.2,1) .9s forwards}
+      #splash .sp-basmala{animation:spRise .8s ease 1s both}
+      @keyframes spMedal{from{opacity:0;transform:scale(.6) translateY(8px)}to{opacity:1;transform:none}}
+      @keyframes spRing{from{opacity:0;transform:scale(1.25)}to{opacity:1;transform:none}}
+      @keyframes spPulse{0%,100%{transform:scale(1);opacity:.55}50%{transform:scale(1.06);opacity:.85}}
+      @keyframes spRise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+      @keyframes spFill{to{width:100%}}
+      @media (prefers-reduced-motion: reduce){#splash *{animation:none!important}#splash .sp-bar i{width:100%}}
+    </style>
+    <svg class="sp-star" viewBox="0 0 120 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><pattern id="sp-kp" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M20 4l4.2 7.6L32 8l-3.6 7.8L36 20l-7.6 4.2L32 32l-7.8-3.6L20 36l-4.2-7.6L8 32l3.6-7.8L4 20l7.6-4.2L8 8l7.8 3.6z" fill="none" stroke="#fff" stroke-width="1.1"/></pattern></defs><rect width="120" height="120" fill="url(#sp-kp)"/></svg>
+    <div class="sp-glow"></div>
+
+    <div class="relative flex flex-col items-center">
+      <div class="sp-medal relative">
+        <span class="sp-ring"></span>
+        <div class="w-28 h-28 rounded-[26px] flex items-center justify-center"
+             style="background:linear-gradient(150deg,#0e6a4f,#083a2b);box-shadow:0 18px 50px -10px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.18)">
+          <svg width="64" height="64" viewBox="0 0 100 100" aria-hidden="true">
+            <path d="M62 20a32 32 0 1 0 0 60 26 26 0 1 1 0-60Z" fill="#d4af59"/>
+            <path d="M50 71c-7-5-15-5-22 0v8c7-5 15-5 22 0Zm0 0c7-5 15-5 22 0v8c-7-5-15-5-22 0Z" fill="#f5f1e6"/>
+            <circle cx="71" cy="33" r="3.6" fill="#f0d696"/>
+          </svg>
+        </div>
+      </div>
+      <h1 class="sp-t1 mt-7 text-white text-3xl font-extrabold tracking-tight">Kurani</h1>
+      <p class="sp-t2 mt-1.5 text-xl" style="color:#f0d696;font-family:'Amiri Quran',serif">القرآن الكريم</p>
+      <p class="sp-t3 mt-2 text-[13px] font-semibold tracking-[.2em] uppercase" style="color:rgba(255,255,255,.7)">Lexo · Dëgjo · Mëso</p>
+      <div class="sp-bar mt-7 h-[3px] w-40 rounded-full overflow-hidden" style="background:rgba(255,255,255,.18)"><i></i></div>
+    </div>
+
+    <p class="sp-basmala absolute bottom-10 text-lg" style="color:rgba(240,214,150,.85);font-family:'Amiri Quran',serif">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+  </div>
+
+  <!-- ===== Top App Bar ===== -->
+  <header id="appbar" class="sticky top-0 z-40 glass safe-t" style="background:color-mix(in srgb, var(--surface) 82%, transparent);border-bottom:1px solid var(--border)">
+    <div class="max-w-3xl mx-auto px-4 h-14 flex items-center gap-3">
+      <button id="backBtn" hidden class="tap w-9 h-9 -ml-1 rounded-full grid place-items-center surface-2" aria-label="Back">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <div class="flex items-center gap-2 min-w-0">
+        <div class="w-8 h-8 rounded-xl bg-accent grid place-items-center shrink-0">
+          <svg width="18" height="18" viewBox="0 0 100 100"><path d="M62 20a32 32 0 1 0 0 60 26 26 0 1 1 0-60Z" fill="#d4af59"/></svg>
+        </div>
+        <h1 id="barTitle" class="font-extrabold text-lg truncate">Kurani</h1>
+      </div>
+      <div class="ml-auto flex items-center gap-1">
+        <button id="langBtn" class="tap h-9 px-3 rounded-full surface-2 text-sm font-semibold flex items-center gap-1" aria-label="Language">
+          <span id="langLabel">SQ</span>
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <button id="themeBtn" class="tap w-9 h-9 rounded-full surface-2 grid place-items-center" aria-label="Theme">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Main ===== -->
+  <main id="view" class="max-w-3xl mx-auto px-4 pt-3 pb-40 min-h-[70vh]"></main>
+
+  <!-- ===== Audio Mini Player ===== -->
+  <div id="player" hidden class="fixed left-0 right-0 z-40 px-3" style="bottom:calc(64px + env(safe-area-inset-bottom))">
+    <div class="max-w-3xl mx-auto surface shadow-card rounded-2xl border brd p-2.5 flex items-center gap-3 fade-in">
+      <button id="pPrev" class="tap w-9 h-9 grid place-items-center rounded-full surface-2" aria-label="Previous">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg></button>
+      <button id="pPlay" class="tap w-11 h-11 grid place-items-center rounded-full bg-accent text-white shadow-glow" aria-label="Play">
+        <svg id="pIconPlay" width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <svg id="pIconPause" hidden width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
+      </button>
+      <button id="pNext" class="tap w-9 h-9 grid place-items-center rounded-full surface-2" aria-label="Next">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M16 6h2v12h-2zM6 6l8.5 6L6 18z"/></svg></button>
+      <div class="min-w-0 flex-1">
+        <p id="pTitle" class="text-sm font-bold truncate">—</p>
+        <div class="h-1.5 rounded-full mt-1.5 surface-2 overflow-hidden"><div id="pBar" class="h-full bg-accent" style="width:0%"></div></div>
+      </div>
+      <button id="pRepeat" class="tap w-9 h-9 grid place-items-center rounded-full surface-2 txt-muted" aria-label="Repeat">
+        <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></button>
+      <button id="pClose" class="tap w-9 h-9 grid place-items-center rounded-full surface-2 txt-muted" aria-label="Close">
+        <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+  </div>
+
+  <!-- ===== Bottom Nav ===== -->
+  <nav id="bottomnav" class="fixed bottom-0 left-0 right-0 z-40 glass safe-b" style="background:color-mix(in srgb, var(--surface) 88%, transparent);border-top:1px solid var(--border)">
+    <div class="max-w-3xl mx-auto grid grid-cols-5 h-16">
+      <button data-nav="#/" class="navbtn tap flex flex-col items-center justify-center gap-1 txt-muted">
+        <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="M5 10.5 12 4l7 6.5V20H5z" fill="currentColor" opacity=".18"/><path d="M3.5 11 12 3.5 20.5 11M5 10v10h14V10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 20v-5h4v5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        <span class="text-[11px] font-semibold" data-i18n="nav_home">Ballina</span></button>
+      <button data-nav="#/surahs" class="navbtn tap flex flex-col items-center justify-center gap-1 txt-muted">
+        <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="M12 6.4C10.4 4.9 7.9 4.4 5 5v12.4c2.9-.6 5.4-.1 7 1.4 1.6-1.5 4.1-2 7-1.4V5c-2.9-.6-5.4-.1-7 1.4z" fill="currentColor" opacity=".18"/><path d="M12 6.4v12.8M5 5c2.9-.6 5.4-.1 7 1.4 1.6-1.5 4.1-2 7-1.4v12.4c-2.9-.6-5.4-.1-7 1.4-1.6-1.5-4.1-2-7-1.4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        <span class="text-[11px] font-semibold" data-i18n="nav_surahs">Suret</span></button>
+      <button data-nav="#/search" class="navbtn tap flex flex-col items-center justify-center gap-1 txt-muted">
+        <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6.6" fill="currentColor" opacity=".16"/><circle cx="11" cy="11" r="6.6" stroke="currentColor" stroke-width="1.7"/><path d="m20.4 20.4-3.7-3.7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span class="text-[11px] font-semibold" data-i18n="nav_search">Kërko</span></button>
+      <button data-nav="#/bookmarks" class="navbtn tap flex flex-col items-center justify-center gap-1 txt-muted">
+        <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><path d="M7 3.2h10c.6 0 1 .5 1 1V20l-6-4-6 4V4.2c0-.5.4-1 1-1z" fill="currentColor" opacity=".18"/><path d="M7 3.2h10c.6 0 1 .5 1 1V20l-6-4-6 4V4.2c0-.5.4-1 1-1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        <span class="text-[11px] font-semibold" data-i18n="nav_saved">Favoritet</span></button>
+      <button data-nav="#/settings" class="navbtn tap flex flex-col items-center justify-center gap-1 txt-muted">
+        <svg width="23" height="23" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" fill="currentColor" opacity=".14"/><circle cx="12" cy="12" r="2.7" stroke="currentColor" stroke-width="1.6"/><path d="M12 3.5v2.2M12 18.3v2.2M3.5 12h2.2M18.3 12h2.2M6 6l1.6 1.6M16.4 16.4 18 18M18 6l-1.6 1.6M7.6 16.4 6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span class="text-[11px] font-semibold" data-i18n="nav_settings">Cilësimet</span></button>
+    </div>
+  </nav>
+
+  <!-- ===== Toast ===== -->
+  <div id="toast" hidden class="fixed left-1/2 -translate-x-1/2 z-[60] px-4 py-2.5 rounded-full text-white text-sm font-semibold shadow-glow pop"
+       style="bottom:calc(96px + env(safe-area-inset-bottom));background:#0a4b38"></div>
+
+  <!-- ===== Sheet (theme/lang/reciter pickers) ===== -->
+  <div id="sheet" hidden class="fixed inset-0 z-[70]">
+    <div id="sheetBg" class="absolute inset-0 bg-black/40"></div>
+    <div id="sheetBody" class="absolute left-0 right-0 bottom-0 surface rounded-t-3xl border-t brd p-5 pb-8 safe-b max-w-3xl mx-auto fade-in"></div>
+  </div>
+
+  <audio id="audio" preload="none"></audio>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/enhance.js"></script>
+  <script src="js/content.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{}));
+    }
+  </script>
+</body>
+</html>
