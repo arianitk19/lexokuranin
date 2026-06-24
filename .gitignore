@@ -1,0 +1,18 @@
+# Kurani — .gitignore
+# NOTE: icons/ and all images ARE tracked on purpose. Do not ignore them.
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
+
+# Node (only if you later add a build step)
+node_modules/
+npm-debug.log*
+
+# Vercel
+.vercel/
+
+# Do NOT add lines like:  *.png  /  icons/  /  *.svg  — they would hide your icons.
