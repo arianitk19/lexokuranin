@@ -1,0 +1,13 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.5",
+  "backgroundImage": { "url": "icons/now-playing-512.png", "fillMode": "cover" },
+  "body": [
+    { "type": "TextBlock", "text": "Ajeti i ditës · آية اليوم", "weight": "Bolder", "size": "Small", "color": "Light", "isSubtle": false },
+    { "type": "TextBlock", "text": "${ayah_ar}", "wrap": true, "horizontalAlignment": "Right", "size": "Medium", "color": "Light" },
+    { "type": "TextBlock", "text": "${ayah_tr}", "wrap": true, "size": "Small", "color": "Light", "isSubtle": true },
+    { "type": "TextBlock", "text": "${ref}", "size": "Small", "weight": "Bolder", "color": "Warning", "spacing": "Small" }
+  ],
+  "actions": [ { "type": "Action.OpenUrl", "title": "Hap Kuranin", "url": "https://kurani.app/#/continue" } ]
+}
